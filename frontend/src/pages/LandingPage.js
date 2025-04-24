@@ -10,6 +10,56 @@ function LandingPage() {
     { id: 5, size: 45, top: '70%', left: '40%', icon: '🔍', label: 'Search' },
     { id: 6, size: 65, top: '40%', left: '30%', icon: '🤖', label: 'AI' },
   ];
+  
+  const pricingPlans = [
+    {
+      name: 'Free',
+      price: '$0',
+      period: '/month',
+      description: 'Basic features for personal use',
+      features: [
+        'Up to 100 messages per day',
+        'Basic tool integrations',
+        'Standard response time',
+        'Community support'
+      ],
+      cta: 'Get Started',
+      highlighted: false
+    },
+    {
+      name: 'Pro',
+      price: '$29',
+      period: '/month',
+      description: 'Advanced features for professionals',
+      features: [
+        'Unlimited messages',
+        'All tool integrations',
+        'Priority response time',
+        'Email support',
+        'Custom workflows',
+        'API access'
+      ],
+      cta: 'Start Free Trial',
+      highlighted: true
+    },
+    {
+      name: 'Enterprise',
+      price: '$99',
+      period: '/month',
+      description: 'Complete solution for teams',
+      features: [
+        'Everything in Pro',
+        'Dedicated instance',
+        'Custom tool development',
+        'Advanced security',
+        'SLA guarantees',
+        'Dedicated support',
+        'Team management'
+      ],
+      cta: 'Contact Sales',
+      highlighted: false
+    }
+  ];
 
   return (
     <div className="landing-page">
@@ -96,75 +146,71 @@ function LandingPage() {
         </div>
       </div>
       
-      <div id="features" className="features container">
-        <h2>Agent Capabilities</h2>
-        <div className="feature-grid">
-          <div className="feature-card">
-            <h3>Tool Integration</h3>
-            <p>Connect with shell commands, file systems, browsers, and custom APIs through a unified interface</p>
+      <div id="pricing" className="pricing-section">
+        <div className="container">
+          <div className="section-header">
+            <h2>Pricing Plans</h2>
+            <p>Choose the plan that fits your needs</p>
           </div>
-          <div className="feature-card">
-            <h3>Event-Driven Architecture</h3>
-            <p>Process events asynchronously with a modular agent loop for efficient task execution</p>
-          </div>
-          <div className="feature-card">
-            <h3>Real-Time Communication</h3>
-            <p>Interact with the agent through WebSocket connections for immediate responses and updates</p>
-          </div>
-          <div className="feature-card">
-            <h3>Modular Planning</h3>
-            <p>Break down complex tasks into manageable steps with dynamic execution paths</p>
-          </div>
-          <div className="feature-card">
-            <h3>Extensible Framework</h3>
-            <p>Add custom tools and modules to extend the agent's capabilities for specialized tasks</p>
-          </div>
-          <div className="feature-card">
-            <h3>Workflow Automation</h3>
-            <p>Automate repetitive tasks and complex workflows with intelligent decision-making</p>
+          
+          <div className="pricing-plans">
+            {pricingPlans.map((plan, index) => (
+              <div 
+                key={index} 
+                className={`pricing-plan ${plan.highlighted ? 'highlighted' : ''}`}
+              >
+                <div className="plan-header">
+                  <h3>{plan.name}</h3>
+                  <div className="plan-price">
+                    <span className="price">{plan.price}</span>
+                    <span className="period">{plan.period}</span>
+                  </div>
+                  <p>{plan.description}</p>
+                </div>
+                <div className="plan-features">
+                  {plan.features.map((feature, idx) => (
+                    <div key={idx} className="plan-feature">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 12L10 17L20 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="plan-cta">
+                  <Link to="/signup" className={`button ${plan.highlighted ? 'primary-button' : 'secondary-button'}`}>
+                    {plan.cta}
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
       
-      <div className="partners container">
-        <h3>Integrated with your favorite tools and services</h3>
-        <div className="partner-logos">
-          <div className="partner-logo">
-            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 5L5 15L20 25L35 15L20 5Z" fill="white" fillOpacity="0.7" />
-              <text x="45" y="20" fill="white" fillOpacity="0.7" fontFamily="Arial" fontSize="14" fontWeight="bold">GitHub</text>
-            </svg>
-          </div>
-          <div className="partner-logo">
-            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 5H25V25H15V5Z" fill="white" fillOpacity="0.7" />
-              <text x="35" y="20" fill="white" fillOpacity="0.7" fontFamily="Arial" fontSize="14" fontWeight="bold">VS Code</text>
-            </svg>
-          </div>
-          <div className="partner-logo">
-            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="20" cy="15" r="10" fill="white" fillOpacity="0.7" />
-              <text x="35" y="20" fill="white" fillOpacity="0.7" fontFamily="Arial" fontSize="14" fontWeight="bold">Slack</text>
-            </svg>
-          </div>
-          <div className="partner-logo">
-            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 15C15 10.0294 19.0294 6 24 6C28.9706 6 33 10.0294 33 15C33 19.9706 28.9706 24 24 24C19.0294 24 15 19.9706 15 15Z" fill="white" fillOpacity="0.7" />
-              <text x="40" y="20" fill="white" fillOpacity="0.7" fontFamily="Arial" fontSize="14" fontWeight="bold">Notion</text>
-            </svg>
-          </div>
-          <div className="partner-logo">
-            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M15 5L25 15L15 25L5 15L15 5Z" fill="white" fillOpacity="0.7" />
-              <text x="30" y="20" fill="white" fillOpacity="0.7" fontFamily="Arial" fontSize="14" fontWeight="bold">Jira</text>
-            </svg>
+      <div className="cta-section">
+        <div className="container">
+          <div className="cta-content">
+            <h2>Ready to Build Your AI Workflow?</h2>
+            <p>Start building intelligent AI agents today with LightRail AI</p>
+            <Link to="/signup" className="button primary-button">Get Started for Free</Link>
           </div>
         </div>
       </div>
       
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2025 LightRail.dev. All rights reserved.</p>
+          <div className="footer-content">
+            <div className="footer-logo">
+              <svg className="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="white" />
+                <path d="M2 17L12 22L22 17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M2 12L12 17L22 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span>LightRail.dev</span>
+            </div>
+            <p>&copy; 2025 LightRail.dev. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>
