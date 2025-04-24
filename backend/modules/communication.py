@@ -2,6 +2,10 @@ class CommunicationModule:
     def __init__(self, frontend_service):
         self.frontend = frontend_service
         
+    def send_message(self, message):
+        """Send message directly to frontend"""
+        return self.frontend.send_message(message)
+        
     def notify_user(self, message, attachments=None):
         """Send non-blocking notification to user"""
         return self.frontend.send_message({
