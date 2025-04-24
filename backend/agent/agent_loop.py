@@ -1,4 +1,5 @@
 from asyncio import Queue
+from .event import Event
 
 class AgentLoop:
     def __init__(self, tools_registry, modules):

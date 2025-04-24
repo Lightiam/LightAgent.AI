@@ -1,9 +1,12 @@
+import json
+
 class PlanningModule:
     def __init__(self, llm_service):
         self.llm = llm_service
         self.current_plan = None
         self.current_step = 0
         self.max_steps = 20
+        self.chat_mode = False
         
     def create_plan(self, task_description):
         """Create a step-by-step plan for completing a task"""
@@ -28,7 +31,22 @@ class PlanningModule:
         
     def get_next_action(self, context):
         """Determine the next action to take based on the current plan"""
-        if not self.current_plan:
+        # Check if this is a chat message
+        if isinstance(context, dict) and context.get('type') == 'chat_response':
+            self.chat_mode = True
+            return type('ActionPlan', (), {
+                'tool_name': 'communicator',
+                'parameters': {
+                    'message': context.get('content', 'No response content'),
+                    'original_message': context.get('original_message', {})
+                }
+            })()
+            
+        if not self.current_plan and not self.chat_mode:
+            self.create_plan("Assist the user with their requests")
+            
+        # If in chat mode or no plan, return None
+        if self.chat_mode or not self.current_plan:
             return None
             
         current_step = self.current_plan["steps"][self.current_step]
@@ -50,6 +68,9 @@ class PlanningModule:
         
     def is_task_complete(self):
         """Check if the current task is complete"""
+        if self.chat_mode:
+            return False
+            
         if not self.current_plan:
             return False
             
