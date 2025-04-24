@@ -46,10 +46,10 @@ class AgentLoop:
                     })
             
             # Process result
-            self.event_queue.put(Event(type="observation", data=result))
+            await self.event_queue.put(Event(type="observation", data=result))
             
             # Check if task is complete
             if self.modules['planner'].is_task_complete():
-                self.modules['communicator'].send_completion(result)
+                await self.modules['communicator'].send_completion(result)
                 break
         self.is_running = False
