@@ -19,11 +19,31 @@ class AgentLoop:
             # Get next action from planner
             action_plan = self.modules['planner'].get_next_action(analyzed_event)
             
-            # Select appropriate tool
-            tool = self.tools.get_tool(action_plan.tool_name)
-            
-            # Execute the tool
-            result = await tool.execute(action_plan.parameters)
+            if action_plan is None:
+                result = {
+                    'type': 'message',
+                    'content': 'I cannot process this request right now. Please try again later.'
+                }
+                await self.modules['communicator'].send_message({
+                    'type': 'agent',
+                    'content': result['content']
+                })
+            else:
+                # Select appropriate tool
+                tool = self.tools.get_tool(action_plan.tool_name)
+                
+                # Execute the tool if it exists
+                if tool:
+                    result = await tool.execute(action_plan.parameters)
+                else:
+                    result = {
+                        'type': 'error',
+                        'content': f"Tool '{action_plan.tool_name if action_plan else 'None'}' not found"
+                    }
+                    await self.modules['communicator'].send_message({
+                        'type': 'agent',
+                        'content': f"I'm sorry, I don't have the capability to perform this action."
+                    })
             
             # Process result
             self.event_queue.put(Event(type="observation", data=result))
